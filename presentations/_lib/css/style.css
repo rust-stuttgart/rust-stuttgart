@@ -42,9 +42,18 @@ pre, tt, code {
 }
 
 .title-slide {
-    padding: 16px;
-    background-image: url("/_lib/img/rust-logo-black.svg");
+    padding-right: 1em;
     background-color: #fff;
+}
+
+.rust-logo-black {
+    background-image: url("/_lib/img/rust-logo-black.svg");
+    background-position: top right;
+    background-origin: content-box;
+}
+
+.rust-logo-white {
+    background-image: url("/_lib/img/rust-logo-white.svg");
     background-position: top right;
     background-origin: content-box;
 }
@@ -52,7 +61,6 @@ pre, tt, code {
 .title-slide.green {
     color: #fff;
     background-color: #398277;
-    background-image: url("/_lib/img/rust-logo-white.svg");
 }
 
 .title-slide.green h1::after {
@@ -62,7 +70,6 @@ pre, tt, code {
 .title-slide.blue {
     color: #fff;
     background-color: #403D58;
-    background-image: url("/_lib/img/rust-logo-white.svg");
 }
 
 .title-slide.blue h1::after {
@@ -72,7 +79,6 @@ pre, tt, code {
 .title-slide.pink {
     color: #fff;
     background-color: #C14566;
-    background-image: url("/_lib/img/rust-logo-white.svg");
 }
 
 .title-slide.pink h1::after {
