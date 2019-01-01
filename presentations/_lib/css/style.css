@@ -21,14 +21,14 @@ pre, tt, code {
     font-family: "Ubuntu Mono", monospace;
 }
 
-.title-slide h1 {
+h1 {
     display: inline-block;
     position: relative;
     z-index: 1;
     clear: both;
 }
 
-.title-slide h1::after {
+h1::after {
     display: block;
     width: inherit;
     content: '';
