@@ -1,0 +1,80 @@
+@font-face {
+    font-family: "Fira Sans";
+    src: url("/_lib/fonts/fira-sans/FiraSans-Regular.ttf");
+}
+
+@font-face {
+    font-family: "Alpha Slab One";
+    src: url("/_lib/fonts/alfa-slab-one/AlfaSlabOne-Regular.ttf");
+}
+
+h1, h2, h3, h4, h5, h6 {
+    letter-spacing: 1px;
+    font-family: "Alpha Slab One", serif;
+}
+
+* {
+    font-family: "Fira Sans", sans-serif;
+}
+
+pre, tt, code {
+    font-family: "Ubuntu Mono", monospace;
+}
+
+.title-slide h1 {
+    display: inline-block;
+    position: relative;
+    z-index: 1;
+    clear: both;
+}
+
+.title-slide h1::after {
+    display: block;
+    width: inherit;
+    content: '';
+    left: 0;
+    right: 0;
+    bottom: 0;
+    height: 24px;
+    position: absolute;
+    z-index: -1;
+    background: #FFD45E;
+}
+
+.title-slide {
+    padding: 16px;
+    background-image: url("/_lib/img/rust-logo-black.svg");
+    background-color: #fff;
+    background-position: top right;
+    background-origin: content-box;
+}
+
+.title-slide.green {
+    color: #fff;
+    background-color: #398277;
+    background-image: url("/_lib/img/rust-logo-white.svg");
+}
+
+.title-slide.green h1::after {
+    background: #403D58;
+}
+
+.title-slide.blue {
+    color: #fff;
+    background-color: #403D58;
+    background-image: url("/_lib/img/rust-logo-white.svg");
+}
+
+.title-slide.blue h1::after {
+    background: #C14566;
+}
+
+.title-slide.pink {
+    color: #fff;
+    background-color: #C14566;
+    background-image: url("/_lib/img/rust-logo-white.svg");
+}
+
+.title-slide.pink h1::after {
+    background: #403D58;
+}
