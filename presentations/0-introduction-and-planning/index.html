@@ -20,7 +20,7 @@ class: center, middle, title-slide, rust-logo-black
 
 1. Überblick
 1. Tooling
-1. Safety
+1. Sicherheit
 1. Borrowing & Ownership
 1. Lifetimes
 1. Resourcen & Tipps
@@ -365,9 +365,77 @@ TODO
 
 class: title-slide, pink
 
-# Safety
+# Sicherheit
 
-TODO
+* Sicherheitsgarantien
+* Safe and `unsafe` Rust
+
+---
+
+# Sicherheitsgarantien
+
+* Speichersicherheit
+  * Keine invaliden Speicherzugriffe (z.B. Buffer Overflows, Dangling pointers, fehlerhafte Pointer-Arithmetik)
+  * Keine uninitialisierten Variablen (z.B. null pointer dereference)
+  * Ohne Laufzeit-Garbage-Collection
+
+* Thread-Sicherheit: Keine Data Races
+* Data Race != Race Condition
+
+* Was ist ein Data Race?
+  * Mindestens zwei Threads greifen auf denselben Speicher zu
+  * Mindestens ein Schreibzugriff
+  * Mindestens ein Zugriff ist nicht synchronisiert (keine Reihenfolge der Zugriffe garantiert)
+
+* Was ist eine Race Condition?
+  * Die Ausgabe eines Programms hängt von der Sequenz oder Timing anderer Ereignisse ab
+  * z.B. Deadlock (z.B. zwei Programme warten jeweils auf die Freigabe einer Ressource, die aktuell vom anderen Programm
+    blockiert wird)
+
+???
+
+* [Memory Safety - Wikipedia](https://en.wikipedia.org/wiki/Memory_safety)
+* [Dead lock - Wikipedia](https://en.wikipedia.org/wiki/Deadlock)
+* [Races - Nomicon](https://doc.rust-lang.org/nomicon/races.html)
+* [Safety guarantees - Rust doc](https://doc.rust-lang.org/1.0.0/style/safety/README.html)
+
+---
+
+# Sicherheitsgarantien (cont'd)
+
+* API-Garantien
+  * Beispiel: `std::str` garantiert, dass der zugrundeliegende Buffer valies UTF-8 ist
+
+## Was nicht garantiert ist
+
+* Programmabstürze, z.B. via `panic!()` oder `Option::unwrap()`
+* Race Conditions
+* Deadlocks
+* Memory leaks
+* Nicht aufgerufene Desktruktoren
+* Integer Overflows
+* Fehlerhafte Programmlogik
+
+???
+
+* [Nomicon - What unsafe does](https://doc.rust-lang.org/nomicon/what-unsafe-does.html)
+
+---
+
+# Safe and unsafe Rust
+
+<img width="300" src="/0-introduction-and-planning/img/unsafe_meme.jpg" />
+
+`unsafe` erlaubt:
+
+* Rohe Pointer dereferenzieren
+* `unsafe`-Methode oder -Funktion aufrufen
+* auf `mut`able statische Variable zugreifen oder schreiben
+* `unsafe` trait implementieren
+
+???
+
+* [Unsafe meme](https://github.com/rochacbruno/rust_memes)
 
 ---
 
