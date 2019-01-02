@@ -37,6 +37,7 @@ class: title-slide, green
 1. Einsatzgebiete
 1. Etwas zur Geschichte
 1. Hello World!
+1. Basic Building Blocks
 
 ---
 
@@ -130,6 +131,131 @@ TODO
 fn main() {
     println!("Hello World");
 }
+```
+
+---
+
+# Basic Building Blocks
+
+## Variables
+
+```rust
+let x = 1;
+let y: usize = 2;
+let mut z = 3;
+z += 1;
+println!("{}", z);
+```
+
+--
+
+## Tuples
+
+```rust
+let t = ("tuple", 42, 3.14, true);
+let (_, _, pi, _) = t;
+let meaning_of_life = t.1;
+assert_eq!(meaning_of_life, 42);
+```
+
+---
+
+## Control Flow
+
+## Sequence
+
+```rust
+foo;
+return bar;  // explicit return
+baz          // implicit return
+```
+
+## Choice
+
+```rust
+if x == 42 { /* ... */ }
+```
+
+```rust
+match food { /* ... */ }
+```
+
+## Loops
+
+```rust
+for i in 0..100 { /* ... */ }
+```
+
+```rust
+while x > 0 { /* ... */ }
+loop { /* ... */ }         // ≙ while true
+```
+
+---
+
+## Structs
+
+```rust
+struct Ferris {
+    is_happy: bool,
+    color: String,
+    loc: u64,
+}
+```
+
+--
+
+## Enums
+
+```rust
+enum Vehicle {
+    Boat,
+    Spaceship,
+}
+
+enum Color {
+    RGB(u8, u8, u8),
+    HSV { h: u16, s: u8, v: u8 }
+}
+```
+
+---
+
+## Functions
+
+```rust
+fn factorial(i: u32) -> u32 {
+    let mut n = 1;
+    for num in 2..=i {
+        n *= num;
+    }
+    n
+}
+```
+
+--
+
+## Traits
+
+```rust
+trait SayHello {
+    fn greet(&self, other: &str) -> String;
+}
+```
+
+--
+
+```rust
+impl SayHello for Ferris {
+    fn greet(&self, other: &str) -> String {
+        let my_mood = if self.is_happy { "happy :)" } else { "unhappy :(" };
+        format!("Hey {}, I'm feeling {}", other, my_mood)
+    }
+}
+```
+
+```rust
+ferris.greet("fellow Rustaceans");  // => Hey fellow Rustaceans, I'm feeling happy :)
 ```
 
 ---
