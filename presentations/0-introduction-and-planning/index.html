@@ -38,6 +38,7 @@ class: title-slide, green
 1. Etwas zur Geschichte
 1. Hello World!
 1. Basic Building Blocks
+1. Play time!
 
 ---
 
@@ -256,6 +257,70 @@ impl SayHello for Ferris {
 
 ```rust
 ferris.greet("fellow Rustaceans");  // => Hey fellow Rustaceans, I'm feeling happy :)
+```
+
+---
+
+# Play time!
+
+## [play.rust-lang.org](https://play.rust-lang.org)
+
+```rust
+impl Ferris {
+    fn from_loc(text: &str) -> Self {
+        // TODO
+    }
+}
+
+fn main() {
+    let text = r#"fn factorial(i: u32) -> u32 {
+        let mut n = 1;
+        for num in 2..=i {
+            n *= num;
+        }
+        n
+    }
+
+
+    // Ignore empty lines!"#;
+
+    let ferris = Ferris::from_loc(text);
+    assert_eq!(8, ferris.loc);
+}
+```
+
+---
+
+# Play time!
+
+## Tipps
+
+* [`std::string::String`](https://doc.rust-lang.org/std/string/struct.String.html)
+* [Casting - Rust by Example](https://doc.rust-lang.org/rust-by-example/types/cast.html)
+* [`std::iter::Iterator`](https://doc.rust-lang.org/std/iter/trait.Iterator.html) (optional)
+
+---
+
+# Eine mögliche Lösung
+
+## CW: Spoiler!
+
+--
+
+```rust
+impl Ferris {
+    fn from_loc(text: &str) -> Self {
+        let loc = text
+            .lines()
+            .filter(|line| !line.is_empty())
+            .count();
+        Self {
+            is_happy: true,
+            color: "orange".to_owned(),
+            loc: loc as u64,
+        }
+    }
+}
 ```
 
 ---
