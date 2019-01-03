@@ -381,6 +381,7 @@ class: title-slide, green
 * Cargo
 * Rustdoc
 * Clippy
+* Weitere
 
 ---
 
@@ -394,21 +395,157 @@ class: title-slide, green
 
 ## Cargo
 
-* [crates.io](https://crates.io)
+* Crate (dt. Kiste) ≙ Rust package
+* Cargo: Rust's package manager und build tool
 
-TODO
+```bash
+$ cargo -h
+```
+
+```
+Rust's package manager
+
+Some common cargo commands are (see all commands with --list):
+    build       Compile the current package
+    check       Analyze the current package and report errors, but don't build object files
+    clean       Remove the target directory
+    doc         Build this package's and its dependencies' documentation
+    new         Create a new cargo package
+    init        Create a new cargo package in an existing directory
+    run         Build and execute src/main.rs
+    test        Run the tests
+
+(gekürzt)
+```
+
+## Crates.io
+
+* [crates.io - Rust crate registry](https://crates.io)
+* Veröffentlichung von Crates kann i.d.R. nicht rückgängig gemacht werden
+  * Vermeiden der `npm` `left-pad`-Situation
+
+???
+
+* [Getting Started with Cargo](https://doc.rust-lang.org/cargo/getting-started/first-steps.html)
+
+---
+
+# Cargo Manifest
+
+```bash
+$ cat Cargo.toml
+```
+
+```toml
+[package]
+name = "my_thing"
+version = "0.1.0"
+authors = ["Julia Doe <julia.doe@example.com>"]
+edition = "2018"
+
+[dependencies]
+regex = "1"
+logos = { version = "0.9", optional = true }
+local_dep = { path = "path/to/local/crate" }
+
+[features]
+logos_support = ["logos"]
+```
 
 ---
 
 ## Rustdoc
 
-TODO
+```bash
+$ cat main.rs
+```
+
+```rust
+/// I am a doc comment
+fn foo() { /* */ }
+
+mod bar {
+    //! I belong to the my parent item
+}
+
+/// # Markdown support!
+/// ` ` `
+/// foo();
+/// // This code gets tested (build and run) automatically!
+/// ` ` `
+```
+
+```bash
+$ cargo doc
+```
+
+* [docs.rs](https://docs.rs)
+* [Example: Rocket docs](https://docs.rs/rocket/0.4.0/rocket/)
 
 ---
 
+class: split-60
+
+.row[
+.column[
+
 ## Clippy
 
-TODO
+* Rust Linter
+* Aktuell 291 lints
+* [All the lints](https://rust-lang.github.io/rust-clippy/master/index.html)
+* Konfigurierbar
+
+Install:
+
+```bash
+$ rustup component add clippy
+```
+
+Run:
+
+```bash
+$ cargo clippy
+```
+
+]
+.column[
+
+<img height="380px" src="/0-introduction-and-planning/img/clippy_meme.jpg" />
+
+]
+]
+
+```plaintext
+warning: single-character string constant used as pattern                       
+   --> src/main.rs:147:42                                                       
+    |                                                                           
+147 |         Some(args_str) => args_str.split(" ").collect(),                  
+    |                                          ^^^ help: try using a char instead: `' '`
+    |                                                                           
+    = note: #[warn(clippy::single_char_pattern)] on by default                  
+    = help: for further information visit https://rust-lang-nursery.github.io/rust-clippy/master/index.html#single_char_pattern
+```
+
+???
+
+* [Image source](https://github.com/rochacbruno/rust_memes)
+
+---
+
+# There is more!
+
+* `rustfix`
+  * `cargo fix`
+  * Automatisch Compilerwarnungen beheben
+  * Übergang zwischen 2015 und 2018 editions
+
+* `rustfmt`
+  * `cargo fmt`
+  * Code konventionsgerecht formattieren
+  * Konfigurierbar
+
+Weitere `cargo` subcommands können installiert werden.
 
 ---
 
@@ -509,6 +646,7 @@ TODO
 * [Learn Rust](https://www.rust-lang.org/learn)
   * ["The Book"](https://doc.rust-lang.org/book/)
   * [Rust by Example](https://doc.rust-lang.org/stable/rust-by-example/)
+  * [Getting Started with Cargo](https://doc.rust-lang.org/cargo/getting-started/first-steps.html)
 * [Rust Playground](https://play.rust-lang.org/)
 * [New Rustacean Podcast](https://newrustacean.com/)
 * [This Week In Rust](https://this-week-in-rust.org/)

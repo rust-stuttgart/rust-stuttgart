@@ -104,3 +104,11 @@ h1::after {
 .split-40 .column:last-of-type {
     width: 60%
 }
+
+.split-60 .column:first-of-type {
+    width: 60%
+}
+
+.split-60 .column:last-of-type {
+    width: 40%
+}
