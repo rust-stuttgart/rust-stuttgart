@@ -964,6 +964,146 @@ class: title-slide, green
 
 TODO
 
+* Lifetimes
+* Lifetime-Annotation
+* Play time
+
+TODO
+
+---
+
+# Lifetimes
+
+* Lifetime: Konstrukt, das der Borrow-Checker verwendet, um zu garantieren, dass alle geborgten (borrowed) Variablen
+  valide sind
+* Lifetime eine Variable beginnt mit ihrer erstellung und endet, wenn sie zerstört wird
+* Lifetime ≠ Scope (steht aber oft im Zusammenhang)
+
+---
+
+# Beispiel
+
+```rust
+fn main() {
+    let i = 3; // Lifetime for `i` starts. ────────────────┐
+                                                           │
+    {                                                      │
+        let borrow1 = &i; // `borrow1` lifetime starts. ──┐│
+                                                          ││
+        println!("borrow1: {}", borrow1); //              ││
+    } // `borrow1 ends. ──────────────────────────────────┘│
+                                                           │
+                                                           │
+    {                                                      │
+        let borrow2 = &i; // `borrow2` lifetime starts. ──┐│
+                                                          ││
+        println!("borrow2: {}", borrow2); //              ││
+    } // `borrow2` ends. ─────────────────────────────────┘│
+                                                           │
+}   // Lifetime ends. ─────────────────────────────────────┘
+```
+
+[Taken from Rust By Example (modified)](https://doc.rust-lang.org/rust-by-example/scope/lifetime.html)
+
+---
+
+# Annotation
+
+```rust
+foo<'a, 'b>
+```
+
+--
+
+```rust
+fn print_refs<'a, 'b>(x: &'a i32, y: &'b i32) {
+    println!("x is {} and y is {}", x, y);
+}
+```
+
+--
+
+Bemerkungen
+
+* Lifetime ellision
+
+```rust
+fn print_refs(x: &i32, y: &i32) {
+    println!("x is {} and y is {}", x, y);
+}
+```
+
+* Mit Lifetimes können keine neuen Regeln aufgestellt werden, wie lange eine Referenz lebt, sondern nur im Rahmen der
+  bestehenden Regeln deklariert werden, welche Lebenszeit eine Variable hat
+
+???
+
+* [Source](https://doc.rust-lang.org/rust-by-example/scope/lifetime/explicit.html)
+
+---
+
+# End boss: Borrowck
+
+```rust
+struct Greeter {
+    greeting: &str,
+    name: String,
+}
+
+impl Greeter {
+    fn greet(&self) {
+        println!("{} {}!", self.greeting, self.name);
+    }
+}
+
+fn create_greeter(greeting: &str, name: &str) -> Greeter {
+    Greeter {
+        greeting,
+        name: name.to_owned()
+    }
+}
+
+fn main() {
+    let greeter = create_greeter("Hey", "Ferris");
+    greeter.greet();
+}
+```
+
+[Playground link](https://play.rust-lang.org/?gist=9807bb89dd00eeaf4f9d8b3a0f63924e)
+
+---
+
+# Eine mögliche Lösung
+
+## CW: Spoiler
+
+--
+
+```rust
+struct Greeter<'a> {
+    greeting: &'a str,
+    name: String,
+}
+
+impl<'a> Greeter<'a> {
+    fn greet(&self) {
+        println!("{} {}!", self.greeting, self.name);
+    }
+}
+
+fn create_greeter<'a>(greeting: &'a str, name: &str) -> Greeter<'a> {
+    Greeter {
+        greeting,
+        name: name.to_owned()
+    }
+}
+
+fn main() {
+    let greeter = create_greeter("Hey", "Ferris");
+    greeter.greet();
+}
+```
+
 ---
 
 class: title-slide, pink

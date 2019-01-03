@@ -11,3 +11,7 @@
 ## Macros
 
 * [Playground link](https://play.rust-lang.org/?gist=2a0a6d5736bb11f8bf7daf83678f8c3a)
+
+## Lifetimes
+
+* [Playground link](https://play.rust-lang.org/?gist=9807bb89dd00eeaf4f9d8b3a0f63924e)
