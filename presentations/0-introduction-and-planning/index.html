@@ -20,11 +20,12 @@ class: center, middle, title-slide, rust-logo-black
 
 1. Überblick
 1. Tooling
+1. Enums & Pattern Matching
 1. Sicherheit
 1. Ownership
 1. Borrowing & Lifetimes
-1. Resourcen & Tipps
 1. Macros
+1. Resourcen & Tipps
 
 ---
 
@@ -582,6 +583,280 @@ Weitere `cargo` subcommands können installiert werden.
 
 ---
 
+
+class: title-slide, blue
+
+# Enums & Pattern Matching
+
+* Enums und `match`
+* `Option`
+* `Result`
+
+---
+
+# C-like Enums
+
+```rust
+enum LogLevel {
+    Quiet = 0,
+    Info,
+    Debug,
+    Trace,
+}
+```
+
+```rust
+assert_eq!(3, LogLevel::Trace as usize);
+```
+
+--
+
+Enums vergleichen?
+
+```rust
+let level = LogLevel::Debug;
+if level == LogLevel::Debug { /* ... */ }
+```
+
+```plaintext
+error[E0369]: binary operation `==` cannot be applied to type `LogLevel`
+   --> src/main.rs:100:8
+    |
+100 |     if level == LogLevel::Debug {
+    |        ^^^^^^^^^^^^^^^^^^^^^^^^
+    |
+    = note: an implementation of `std::cmp::PartialEq` might be missing for `LogLevel`
+```
+
+---
+
+# match
+
+```rust
+match level {
+    LogLevel::Quiet => println!("psst ... logging deactivated"),
+    LogLevel::Debug | LogLevel::Trace => {
+        println!("Debug or trace mode");
+    },
+    _ => println!("otherwise")
+}
+```
+
+--
+
+# if let
+
+```rust
+if let LogLevel::Debug = level {
+    // code
+}
+```
+
+???
+
+... oder trait `PartialEq` für das enum implementatieren.
+
+---
+
+# Tuple-like & Struct-like Enum variants
+
+```rust
+enum Color {
+    RGB(u8, u8, u8),
+    HSV { h: u16, s: u8, v: u8 }
+}
+```
+
+--
+
+```rust
+let color = Color::RGB(0, 255, 0);
+```
+
+```rust
+let color = Color::HSV{ h: 120, s: 255, v: 255 };
+```
+
+--
+
+```rust
+match color {
+    Color::RGB(red, green, blue) => println!("{} {} {}", red, green, blue),
+    Color::HSV{h, ..} => println!("{}", h),
+}
+```
+
+--
+
+```rustfix
+if let Color::HSV { h, s, ..} = color {
+    println!("{} {}", h, s);
+}
+```
+
+---
+
+# Option
+
+```rust
+/// The `Option` type. See [the module level documentation](index.html) for more.
+#[derive(Clone, Copy, PartialEq, PartialOrd, Eq, Ord, Debug, Hash)]
+#[stable(feature = "rust1", since = "1.0.0")]
+pub enum Option<T> {
+    /// No value
+    #[stable(feature = "rust1", since = "1.0.0")]
+    None,
+    /// Some value `T`
+    #[stable(feature = "rust1", since = "1.0.0")]
+    Some(#[stable(feature = "rust1", since = "1.0.0")] T),
+}
+```
+
+---
+
+# Option
+
+
+```rust
+pub enum Option<T> {
+    None,
+    Some(T),
+}
+```
+
+--
+
+```rust
+fn get_ferris() -> Option<Ferris> {
+    if something {
+        Some(Ferris::new())
+    } else {
+        None
+    }
+}
+```
+
+???
+
+* [Docs](https://doc.rust-lang.org/std/option/enum.Option.html)
+
+---
+
+# Result
+
+```rust
+#[derive(Clone, Copy, PartialEq, PartialOrd, Eq, Ord, Debug, Hash)]
+#[must_use = "this `Result` may be an `Err` variant, which should be handled"]
+#[stable(feature = "rust1", since = "1.0.0")]
+pub enum Result<T, E> {
+    /// Contains the success value
+    #[stable(feature = "rust1", since = "1.0.0")]
+    Ok(#[stable(feature = "rust1", since = "1.0.0")] T),
+
+    /// Contains the error value
+    #[stable(feature = "rust1", since = "1.0.0")]
+    Err(#[stable(feature = "rust1", since = "1.0.0")] E),
+}
+```
+
+---
+
+# Result
+
+```rust
+pub enum Result<T, E> {
+    Ok(T),
+    Err(E),
+}
+```
+
+--
+
+```rust
+fn can_fail() -> Result<Color, String> {
+    if something {
+        Ok(Color::RGB(0, 255, 0))
+    } else {
+        Err("Operation failed".to_owned())
+    }
+}
+```
+
+---
+
+# ?-Operator
+
+
+```rust
+fn can_fail() -> Result<Color, String> {
+    if something {
+        Ok(Color::RGB(0, 255, 0))
+    } else {
+        Err("Operation failed".to_owned())
+    }
+}
+```
+
+--
+
+```rust
+fn foo() -> Result<Color, String> {
+    let color = can_fail()?;
+    // Do something with color
+    Ok(color)
+}
+```
+
+---
+
+# Play time!
+
+```rust
+enum Either<...> {
+    // ...
+}
+
+fn main() {
+    let test: Either<&str, usize> = Either::A("some string");
+
+    match test {
+        // ...
+    }
+}
+```
+
+Output:
+
+```plaintext
+Got A: some string
+```
+
+---
+
+# Eine mögliche Lösung
+
+## CW: Spoiler
+
+--
+
+```rust
+enum Either<S, T> {
+    A(S),
+    B(T),
+}
+
+fn main() {
+    let test: Either<&str, usize> = Either::A("some string");
+
+    match test {
+        Either::A(some_str) => println!("Got A: {}", some_str),
+        Either::B(some_usize) => println!("Got B: {}", some_usize),
+    }
+}
+```
+
+---
+
 class: title-slide, pink
 
 # Sicherheit
@@ -668,7 +943,7 @@ TODO
 
 class: title-slide, green
 
-# Lifetimes
+# Borrowing & Lifetimes
 
 TODO
 
@@ -805,7 +1080,7 @@ macro_rules! greet {
 
 ---
 
-# Resourcen & Tipps
+# Ressourcen & Tipps
 
 * [Learn Rust](https://www.rust-lang.org/learn)
   * ["The Book"](https://doc.rust-lang.org/book/)
