@@ -348,13 +348,14 @@ fn main() {
         n
     }
 
-
     // Ignore empty lines!"#;
 
     let ferris = Ferris::from_loc(text);
     assert_eq!(8, ferris.loc);
 }
 ```
+
+[Playground link](https://play.rust-lang.org/?edition=2018&gist=89241479796c204d0391fb79f3f03477)
 
 ---
 
@@ -389,6 +390,8 @@ impl Ferris {
     }
 }
 ```
+
+[Playground link](https://play.rust-lang.org/?gist=56036600035e8a69f5845689c28d5826)
 
 ---
 
@@ -829,6 +832,8 @@ fn main() {
 }
 ```
 
+[Playground link](https://play.rust-lang.org/?gist=cd19f0a9f59b63ea505cfb0edbf6651f)
+
 Output:
 
 ```plaintext
@@ -858,6 +863,8 @@ fn main() {
     }
 }
 ```
+
+[Playground link](https://play.rust-lang.org/?edition=2018&gist=911c4d8524ce1b273cad03dc789e1349)
 
 ---
 
@@ -1050,6 +1057,8 @@ macro_rules! greet {
 }
 ```
 
+[Playground link](https://play.rust-lang.org/?gist=2a0a6d5736bb11f8bf7daf83678f8c3a)
+
 ```rust
 greet!("Ferris");
 greet!("Andreas", "Daniel");
@@ -1085,6 +1094,8 @@ macro_rules! greet {
     }
 }
 ```
+
+[Playground link](https://play.rust-lang.org/?gist=f15f806723fb859885ea03f174fcccfd)
 
 ---
 
