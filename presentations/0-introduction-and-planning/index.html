@@ -33,10 +33,12 @@ class: title-slide, green
 
 # Überblick
 
+1. Allgemein
 1. Warum Rust?
 1. Einsatzgebiete
 1. Etwas zur Geschichte
 1. Hello World!
+1. Rust lernen
 1. Basic Building Blocks
 1. Play time!
 
@@ -591,6 +593,8 @@ class: title-slide, blue
 * Enums und `match`
 * `Option`
 * `Result`
+* `?`-Operator
+* Play time
 
 ---
 
@@ -935,7 +939,7 @@ class: title-slide, pink
 
 class: title-slide, blue
 
-# Borrowing & Ownership
+# Ownership
 
 TODO
 
@@ -957,6 +961,7 @@ class: title-slide, pink
 * Eingebaute Macros
 * Arten von Macros
 * Deklarative Macros
+* Play time
 
 ---
 
@@ -969,13 +974,6 @@ class: title-slide, pink
 * Eigener Syntax Sugar
 * Domain-specific languages
 * Variadic interfaces (z.B. `println!`)
-
-## Eingebaute Macros
-
-* `println!("{} {}", arg1, arg2, ...)`
-* `print!("{} {}", arg1, arg2, ...)`
-* `assert_eq!(left, right)`
-* `panic!("Error message")`;
 
 ```c
 // Beispiel Hygiene-Problem
@@ -992,6 +990,16 @@ int main() {
 * Ein weiteres Hygiene-Problem ist shadowing
 * [Macro Hygiene - Wikipedia](https://en.wikipedia.org/wiki/Hygienic_macro)
 * [Macro Hygiene - Rust doc](https://doc.rust-lang.org/1.7.0/book/macros.html#hygiene)
+
+---
+
+## Eingebaute Macros
+
+* `println!("{} {}", arg1, arg2, ...)`
+* `print!("{} {}", arg1, arg2, ...)`
+* `assert_eq!(left, right)`
+* `panic!("Error message")`;
+
 ---
 
 # Arten von Macros
