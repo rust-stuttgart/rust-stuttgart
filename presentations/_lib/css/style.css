@@ -84,3 +84,23 @@ h1::after {
 .title-slide.pink h1::after {
     background: #403D58;
 }
+
+.row {
+    display: flex;
+}
+
+.column:first-of-type {
+    float:left
+}
+
+.column:last-of-type {
+    float:right
+}
+
+.split-40 .column:first-of-type {
+    width: 40%
+}
+
+.split-40 .column:last-of-type {
+    width: 60%
+}
