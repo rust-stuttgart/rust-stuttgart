@@ -641,6 +641,137 @@ TODO
 
 ---
 
+class: title-slide, pink
+
+# Macro basics
+
+* Allgemein
+* Eingebaute Macros
+* Arten von Macros
+* Deklarative Macros
+
+---
+
+## Allgemein
+
+* Zero-Cost-Abstractions
+* Arbeiten auf Synataxlevel (Token-Stream), keine einfache Textersetzung
+* Hygiene
+* DRY (don't repeat yourself)
+* Eigener Syntax Sugar
+* Domain-specific languages
+* Variadic interfaces (z.B. `println!`)
+
+## Eingebaute Macros
+
+* `println!("{} {}", arg1, arg2, ...)`
+* `print!("{} {}", arg1, arg2, ...)`
+* `assert_eq!(left, right)`
+* `panic!("Error message")`;
+
+```c
+// Beispiel Hygiene-Problem
+#define FIVE_TIMES(x) 5 * x
+int main() {
+    printf("%d\n", FIVE_TIMES(2 + 3));  // 13 statt 25
+    return 0;
+}
+```
+
+???
+
+* [Macros - Rust By Example](https://doc.rust-lang.org/rust-by-example/macros.html)
+* Ein weiteres Hygiene-Problem ist shadowing
+* [Macro Hygiene - Wikipedia](https://en.wikipedia.org/wiki/Hygienic_macro)
+* [Macro Hygiene - Rust doc](https://doc.rust-lang.org/1.7.0/book/macros.html#hygiene)
+---
+
+# Arten von Macros
+
+* Deklarative Macros
+  * `macro_rules!`
+* Prozedurale Macros
+  * Custom derive
+  * Attribute like
+
+---
+
+# Deklarative Macros
+
+```rust
+macro_rules! greet {
+    () => {
+        println!("Hello")
+    }
+}
+```
+
+```rust
+greet!()
+```
+
+```plaintext
+Hello
+```
+
+---
+
+# Play time!
+
+```rust
+macro_rules! greet {
+    ($($name:expr),+) => {{
+        // Help:
+        // print!("{}", arg) macro: print without newline
+        // Repetition syntax: https://doc.rust-lang.org/rust-by-example/macros/repeat.html
+    }};
+    ($name:expr) => {
+        println!("Hello {} all fellow Rustaceans!", $name);
+    };
+    () => {
+        println!("Hello");
+    }
+}
+```
+
+```rust
+greet!("Ferris");
+greet!("Andreas", "Daniel");
+```
+
+```
+Hello Ferris and all fellow Rustaceans!
+Hello Andreas and Daniel and all fellow Rustaceans!
+```
+
+---
+
+# Eine mögliche Lösung
+
+## CW: Spoiler
+
+--
+
+```rust
+macro_rules! greet {
+    ($($name:expr),+) => {{
+        print!("Hello");
+        $(
+          print!(" and {}", $name);
+        );+
+        println!(" and all fellow Rustaceans!");
+    }};
+    ($name:expr) => {
+        println!("Hello {} all fellow Rustaceans!", $name);
+    };
+    () => {
+        println!("Hello");
+    }
+}
+```
+
+---
+
 # Resourcen & Tipps
 
 * [Learn Rust](https://www.rust-lang.org/learn)
@@ -652,6 +783,13 @@ TODO
 * [This Week In Rust](https://this-week-in-rust.org/)
 
 ---
+
+# The Beginning
+
+## 🦀 Vielen Dank ❤️
+
+---
+
 </textarea>
 <script src="../_lib/js/remark.js" type="text/javascript">
 </script>
