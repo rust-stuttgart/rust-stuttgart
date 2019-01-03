@@ -131,14 +131,22 @@ Source: [rust-lang.org](https://www.rust-lang.org/)
 
 # Hello World!
 
-## [play.rust-lang.org](https://play.rust-lang.org)
-
 ```rust
 //! main.rs
 
 fn main() {
     println!("Hello World");
 }
+```
+
+## [play.rust-lang.org](https://play.rust-lang.org)
+
+## [rustup.rs](https://rustup.rs/)
+
+```bash
+cargo new hello_world
+cd hello_world
+cargo run
 ```
 
 ---
@@ -459,6 +467,24 @@ local_dep = { path = "path/to/local/crate" }
 logos_support = ["logos"]
 ```
 
+* [semver](https://semver.org/)
+* Editions
+  * 2015
+  * 2018
+
+???
+
+* Editions:
+  * Sechs-wöchiger Release-Züglus (schneller als bei den meisten anderen Sprachen)
+  * Alle 2-3 Jahre: Neue Edition
+    * Zweck:
+      * Bündelt neue Features der letzten Jahre (auch für Außenwirkung)
+      * Zeitpunkt für richtungsweisende Entscheidungen für das Rust-Projekt als ganzes
+      * Chance für Kompatibilitätsbrüche ohne SemVer-Major-Verisonsänderung
+        * Aber: nur Code-Parsing betroffen
+        * Abhängigkeiten nicht betroffen
+* [Editions guide](https://rust-lang-nursery.github.io/edition-guide/editions/index.html)
+* [Rust 2018 edition](https://rust-lang-nursery.github.io/edition-guide/rust-2018/index.html)
 ---
 
 ## Rustdoc
