@@ -954,7 +954,85 @@ class: title-slide, blue
 
 # Ownership
 
-TODO
+1. Wieso Ownership?
+1. Was ist Ownership?
+1. Für was nicht?
+
+---
+
+# Wieso Ownership?
+
+0. Ownership ermöglicht es Rust ohne Garbage Collection Memorysafe zu sein.
+0. Kann aber auch für gewisse Anwendungslogik benutzt werden.
+
+---
+
+# Was ist Ownership?
+
+0. Ownership ist ein Konzept bei dem Ressourcen jeweils genau einen Besitzer haben.
+0. Wenn der Besitzer freigegeben wird, werden auch alle dessen Ressourcen freigegeben.
+
+---
+
+# Beispiel / 1
+
+```rust
+let s = String::from("Hello World");
+// s ist der Besitzer des Strings 'Hello World'
+
+```
+---
+
+# Beispiel / 2
+
+```rust
+{
+    let s = String::from("Hello World");
+}
+// Der String wird freigegeben, weil s am ende des Scopes freigegeben wird
+```
+---
+
+# Beispiel / 3
+
+```rust
+let s = String::from("Hello World");
+let s2 = s;
+// s ist nicht mehr gültig, da der Besitz des Strings von s auf s2 verschoben wurde.
+```
+---
+
+# Beispiel / 4
+
+```rust
+let s = String::from("Hello World");
+let s2 = s.clone();
+// s und s2 sind gültig, da clone() eine Kopie des gesamtent Strings macht.
+// clone() macht es deutlich das eine teure Kopie gemacht wurde
+```
+
+---
+
+# Für was nicht?
+
+Für einige grundlegende Datentypen, die sehr leicht kopiert werden können (Copy Trait).
+
+- Integer
+- Floats
+- Bool
+- Char
+- Tuple, die aus Typen bestehen die Copy implementieren
+- Structs, die aus Typen bestehen die Copy implementieren und die als Copy gekennzeichnet sind.
+
+---
+
+# Beispiel für den Copy Trait
+
+```rust
+let a = 5;
+let b = a;
+// Sowohl a als auch b sind gültig, da a kopiert anstatt verschoben wird.
+```
 
 ---
 
@@ -962,13 +1040,110 @@ class: title-slide, green
 
 # Borrowing & Lifetimes
 
-TODO
-
+* Borrowing
 * Lifetimes
 * Lifetime-Annotation
 * Play time
 
-TODO
+---
+
+# Borrowing
+
+Anstatt den Besitz zu verschieben kann man auch Referenzen auf Werte erstellen.
+Dabei gilt: es kann zu jedem Zeitpunkt entweder
+- Genau eine mutable Referenze
+
+
+oder
+- eine oder mehrere immutable Referenze
+geben.
+
+Ziel einer Referenz muss mindestens so lang existieren wie die Referenz.
+
+---
+
+# Borrowing Beispiel / 1
+
+```rust
+let s = String::from("Hello World");
+let s_ref1 = &s;
+let s_ref2 = &s;
+println!("s: {}, s_ref1: {}, s_ref2: {}", s, s_ref1, s_ref2);
+// gibt alle aus
+```
+[Playground](https://play.rust-lang.org/?version=stable&mode=debug&edition=2018&gist=40c4f3fe0dc438b717742930c130192c)
+---
+
+# Borrowing Beispiel / 2
+
+```rust
+let mut s = String::from("Hello World");
+let s_ref1 = &s;
+let s_ref2 = &mut s;
+println!("s: {}, s_ref1: {}, s_ref2: {}", s, s_ref1, s_ref2);
+// kompiliert nicht, gleichzeitige ein immutable und ein mutable borrow
+```
+[Playground](https://play.rust-lang.org/?version=stable&mode=debug&edition=2018&gist=a281246334cba854e507578794a8608e)
+
+---
+
+# Borrowing Beispiel / 3
+
+```rust
+let mut s = String::from("Hello World");
+let s_ref1 = &mut s;
+let s_ref2 = &mut s;
+println!("s: {}, s_ref1: {}, s_ref2: {}", s, s_ref1, s_ref2);
+// kompiliert nicht, da zwei gleichzeitige muttable borrows
+```
+
+[Playground](https://play.rust-lang.org/?version=stable&mode=debug&edition=2018&gist=d2db67b0862c87ffd9e3e9e8c9086a76)
+
+---
+
+# Borrowing Beispiel / 4
+
+```rust
+let  s = String::from("Hello World");
+{
+    let s_ref1 = &mut s;
+    s_ref1.push('!');
+}
+let s_ref2 = &s;
+
+println!("s: {}, s_ref2: {}", s, s_ref2);
+// gibt zwei mal "Hello World!" aus.
+```
+[Playground](https://play.rust-lang.org/?version=stable&mode=debug&edition=2018&gist=1c03c97c1056e37d94161bca1d6aa9c5)
+---
+
+# Ownership als Teil der Anwendungslogik
+
+Ein einfaches Gutscheinsystem, in dem sichergestellt wird das ein Gutschein nur genau einmal benutzt werden kann.
+```rust
+pub struct Gutschein {}
+
+impl Gutschein {
+    pub fn new() -> Self {
+        println!("Erstelle Gutschein");
+        Gutschein{}
+    }
+}
+impl Drop for Gutschein {
+    fn drop(&mut self) {
+        println!("Lösche Gutschein")
+    }
+}
+
+pub fn benutze(g: Gutschein) {
+    println!("Gutschein wurde benutzt")
+}
+
+fn main() {
+        let g = Gutschein::new();
+        benutze(g)
+}
+```
 
 ---
 
